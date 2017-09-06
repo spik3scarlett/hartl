@@ -1,0 +1,72 @@
+# Tworzymy szachownice
+puts "Podaj liczbe rzedow:"
+liczba_rzedow = gets.chomp.to_i
+
+rzad = (1..liczba_rzedow).to_a
+queens =[]
+nr = 0
+until queens.length == liczba_rzedow do
+nr += 1
+queens =[]
+szachownica = rzad.repeated_permutation(2).to_a
+
+  liczba_rzedow.times do
+    if szachownica.length > 1
+    
+                        # Umieszczamy jednego queena 
+    
+                        queen = szachownica.shuffle[0]
+                        dlugosc = queen[0]
+                        szerokosc = queen[1]
+                        queens << queen
+            
+                        
+                        
+                        #Kasujemy poziom i pion 
+                        
+                        szachownica.reject! { |x| x[0] == dlugosc }
+                        szachownica.reject! { |x| x[1] == szerokosc }
+                        
+                        #kasujemy skosy 
+                        
+                            for n in 1..szerokosc
+                                szachownica.reject! { |x| (x[0] == dlugosc - n) && (x[1] == szerokosc - n) }
+                                break if (dlugosc - n == 1) || (szerokosc - n == 1)
+                                
+                            end
+                            for n in 1..liczba_rzedow    
+                                szachownica.reject! { |x| (x[0] == dlugosc - n) && (x[1] == szerokosc + n) }
+                                break if (dlugosc - n == 1) || (szerokosc + n == liczba_rzedow)
+
+                            end
+                            for n in 1..szerokosc
+                                szachownica.reject! { |x| (x[0] == dlugosc + n) && (x[1] == szerokosc - n) }
+                                break if (dlugosc + n == liczba_rzedow) || (szerokosc - n == 1)
+
+                            end
+                            for n in 1..liczba_rzedow
+                                szachownica.reject! { |x| (x[0] == dlugosc + n) && (x[1] == szerokosc + n) }
+                                break if (dlugosc + n == liczba_rzedow) || (szerokosc + n == 1)
+                                
+                            end
+
+
+                        
+    else
+
+    queens << szachownica[0] unless szachownica[0] == nil
+     queens = queens.uniq
+
+    #end ifa
+    end
+
+
+    #end liczba rzedow times do
+    end
+    
+#end until liczba rzedow = dlugos queens
+
+puts "próba nr #{nr}"
+
+end
+    print "#{queens}\n"
